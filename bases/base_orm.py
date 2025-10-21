@@ -10,9 +10,9 @@ from sqlalchemy.sql.functions import count
 from typing import Annotated
 from fastapi.logger import logger
 
-from app.database.session import get_db_session
+from bases.session_manager import get_session
 
-SessionDep: Type[AsyncSession] = Annotated[AsyncSession, Depends(get_db_session)]
+SessionDep: Type[AsyncSession] = Annotated[AsyncSession, Depends(get_session)]
 
 
 class BaseORM:

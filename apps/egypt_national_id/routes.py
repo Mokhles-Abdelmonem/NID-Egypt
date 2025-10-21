@@ -1,4 +1,3 @@
-# Create your routes here.
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -10,7 +9,7 @@ from starlette import status
 from apps.egypt_national_id.schemas import ValidationResponse, NationalIDRequest, EgyptianNationalIDValidator
 from core.logger import logger
 from core.middlewares import rate_limit_dependency
-from core.security import verify_service_token
+from core.security import verify_service_key
 
 router = APIRouter(
     prefix="/nid-egypt",
@@ -26,7 +25,7 @@ router = APIRouter(
 )
 async def scan_nid(
     request: NationalIDRequest,
-    payload: dict = Depends(verify_service_token),
+    payload: dict = Depends(verify_service_key),
     _: None = Depends(rate_limit_dependency)
 ):
     """

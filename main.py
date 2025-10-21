@@ -7,6 +7,8 @@ Attributes:
 """
 
 from apps.egypt_national_id.routes import router as egypt_national_id_router
+from apps.clients.routes import router as clients_router
 from core.app import app
 
 app.include_router(egypt_national_id_router)
+app.include_router(clients_router)

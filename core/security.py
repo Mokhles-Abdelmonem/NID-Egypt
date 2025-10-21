@@ -1,21 +1,11 @@
-# Create your routes here.
-from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import jwt
-from datetime import datetime, UTC
-from core.settings import settings
+from fastapi import Header, HTTPException, status, Depends
+
+from apps.clients.models import Client
+from apps.clients.services import ClientService
 
 
-def verify_service_token(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
-    token = credentials.credentials
-    try:
-        payload = jwt.decode(token, settings.API_JWT_SECRET, algorithms=[settings.API_JWT_ALGORITHM])
-        if payload.get("service") != "ai-agent":
-            raise HTTPException(status_code=403, detail="Unauthorized service")
-        exp = payload.get("exp", 0)
-        if datetime.now(UTC).timestamp() > exp:
-            raise HTTPException(status_code=403, detail="Unauthorized service")
-
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=403, detail="Invalid token")
-    return payload
+async def verify_service_key(x_api_key: str = Header(...), service: ClientService = Depends(ClientService)):
+    client: Client = await service.repo.first(api_key=x_api_key)
+    if not client:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
+    return client

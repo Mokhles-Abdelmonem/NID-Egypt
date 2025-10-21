@@ -356,19 +356,3 @@ class DeleteOperation(BaseBusinessLogic):
         pass
 
 
-class GenericBusinessLogic(
-    Operation,
-    CreateOperation,
-    RetrieveOperation,
-    ListOperation,
-    FilterOperation,
-    UpdateOperation,
-    DeleteOperation,
-):
-    pass
-
-    async def update_validation(self, pk: int, data: BaseModel):
-        pass
-
-    async def create_validation(self, data: BaseModel):
-        pass

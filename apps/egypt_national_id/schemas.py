@@ -1,9 +1,6 @@
-# Create your schemas here.
-
-from fastapi import HTTPException, Depends, status
 from pydantic import BaseModel, Field, validator
 from typing import Optional
-from datetime import datetime, date
+from datetime import date
 from enum import Enum
 import re
 from core.logger import logger

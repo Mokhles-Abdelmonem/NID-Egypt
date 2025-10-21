@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     DATABASE_URL: str = f"sqlite+aiosqlite:///{BASE_DIR}/db.sqlite3"
 
 
+    MAX_REQUESTS: int = 10
+    WINDOW_SECONDS: int = 60
+
     API_JWT_SECRET: str
     API_JWT_ALGORITHM: str
     SECRET_KEY: str
